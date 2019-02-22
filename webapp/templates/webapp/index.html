@@ -1,9 +1,92 @@
-{% if latest_records_list %}
-    <ul>
-    {% for record in latest_records_list %}
-        <li><a href="">{{ record.description }} - {{ record.ammount }}€</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No records are available.</p>
-{% endif %}
+{% extends 'webapp/base.html' %}
+
+{% block content %}
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Start Bootstrap </div>
+        <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-light bg-light border-bottom">
+            <div class="d-table navbar-header">
+                <div class="d-table-cell align-middle hamburguer-container" onclick="toggleMenu(this)" id="menu-toggle">
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                </div>
+
+                <div class="d-table-cell h1 px-4">CashTrack</div>
+            </div>
+        </nav>
+
+        <div class="container">
+
+            <!-- <h1 class="font-weight-light text-center mt-4 mb-5">Latest Records</h1> -->
+            <div class="card w-50 mt-4 mb-4 mx-auto">
+                <div class="card-body">
+                    <h5 class="card-title">New Record</h5>
+                    <form>
+                        <!-- <div class="form-group row mx-auto">
+                            <input type="text" class="form-control" style="border:0;" placeholder="Ammount">
+                        </div> -->
+                        <form>
+                            <div class="form-row">
+                                <div class="col">
+                                    <input type="text" class="form-control" style="border:0;" placeholder="Ammount">
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" style="border:0;" placeholder="Subject">
+                                </div>
+                            </div>
+                        </form>
+                        <div class="form-group row mx-auto">
+                            <textarea type="text" class="form-control" style="border:0;" rows="2" placeholder="Description"></textarea>
+                        </div>
+                        <form>
+                            <div class="form-row">
+                                <div class="col">
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <input type="time" class="form-control">
+                                </div>
+                            </div>
+                        </form>
+                    </form>
+                    <a href="#" class="btn btn-primary float-right">Create</a>
+                </div>
+            </div>
+
+            <div class="card-columns">
+                {% for record in latest_records_list %}
+                {% include "webapp/record.html" %}
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+
+<!-- Hamburguer animation Script -->
+<script>
+    function toggleMenu(x) {
+        document.getElementById('wrapper').classList.toggle('toggled')
+        x.classList.toggle("change")
+    }
+</script>
+{% endblock %}
