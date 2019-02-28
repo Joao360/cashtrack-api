@@ -7,15 +7,9 @@ from .forms import RecordForm
 from .models import Record, RecordType
 
 def index(request):
-    latest_records_list = Record.objects.order_by('-datetime')[:5]
-    form = RecordForm()
-
-    context = {
-        'latest_records_list': latest_records_list,
-        'form': form
-    }
+    latest_records_list = Record.objects.order_by('-datetime')[:15]
     
-    return render(request, 'webapp/index.html', context)
+    return render(request, 'webapp/index.html', { 'latest_records_list': latest_records_list })
 
 """ 
     In case of success returns the created record in html format

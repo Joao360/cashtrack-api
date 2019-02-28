@@ -1,8 +1,15 @@
 {% block content %}
 <div class="card text-center">
     <div class="card-body">
-        <h5 class="card-title">- {{ record.ammount }}€</h5>
-        <p class="card-text">{{ record.description }}</p>
+        <h5 class="card-title">
+            {% ifnotequal record.recordType.name 'Expense' %}
+                +
+            {% else %}
+                -
+            {% endifnotequal %}
+            {{ record.ammount }}€
+        </h5>
+        <p class="card-text">{{ record.note }}</p>
         <p class="card-text"><small class="text-muted">{{ record.datetime }}</small></p>
     </div>
 </div>
