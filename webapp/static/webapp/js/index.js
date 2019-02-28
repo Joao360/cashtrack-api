@@ -1,9 +1,8 @@
-window.httpRequest = function (method, path, data, cb) {
+window.httpRequest = function (method, path, headers, data, cb) {
   const xhr = new XMLHttpRequest()
   xhr.open(method, path, true)
 
-  // Send the proper header information along with the request
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+  for (var key in headers) xhr.setRequestHeader(key, headers[key])
 
   xhr.onreadystatechange = function () { // Call a function when the state changes.
     if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -24,39 +23,59 @@ window.onload = load
 function load () {
   let menuToggler = document.getElementById('menu-toggle')
   let incomeBtn = document.getElementById('incomeBtn')
-  let incomeForm = document.getElementById('incomeForm')
   let expenseBtn = document.getElementById('expenseBtn')
-  let expenseForm = document.getElementById('expenseForm')
+  let recordTypeInput = document.getElementById('recordType')
+  let recordForm = document.getElementById('recordForm')
+  let recordCards = document.getElementById('recordCards')
 
   menuToggler.addEventListener('click', () => toggleSideMenu(menuToggler))
 
   incomeBtn.addEventListener('click', () => {
-    showForm(incomeBtn, incomeForm)
-    hideForm(expenseBtn, expenseForm)
+    if (!incomeBtn.classList.contains('active')) {
+      expenseBtn.classList.toggle('active')
+      incomeBtn.classList.toggle('active')
+    }
+
+    recordTypeInput.value = 'Income'
   })
 
   expenseBtn.addEventListener('click', () => {
-    showForm(expenseBtn, expenseForm)
-    hideForm(incomeBtn, incomeForm)
+    if (!expenseBtn.classList.contains('active')) {
+      expenseBtn.classList.toggle('active')
+      incomeBtn.classList.toggle('active')
+    }
+
+    recordTypeInput.value = 'Expense'
   })
 
-  showForm(expenseBtn, expenseForm)
-  hideForm(incomeBtn, incomeForm)
+  recordForm.addEventListener('submit', event => {
+    event.preventDefault()
+
+    let formData = formToObject(recordForm)
+    let headers = { 'X-CSRFToken': formData.csrfmiddlewaretoken, 'Content-type': 'application/json' }
+
+    window.httpRequest(recordForm.method, recordForm.action, headers, JSON.stringify(formData), (err, body) => {
+      if (err) return console.log(err)
+
+      recordCards.innerHTML = body + recordCards.innerHTML
+    })
+  })
+}
+
+function formToObject (form) {
+  let obj = {}
+  let elements = form.querySelectorAll('input, select, textarea')
+  for (var i = 0; i < elements.length; ++i) {
+    let element = elements[i]
+    let name = element.name
+    let value = element.value
+
+    if (name) obj[ name ] = value
+  }
+  return obj
 }
 
 function toggleSideMenu (button) {
   document.getElementById('wrapper').classList.toggle('toggled')
   button.classList.toggle('change')
-}
-
-function showForm (btn, form) {
-  if (!btn.classList.contains('active')) btn.classList.toggle('active')
-
-  form.style.display = ''
-}
-
-function hideForm (btn, form) {
-  if (btn.classList.contains('active')) btn.classList.toggle('active')
-
-  form.style.display = 'none'
 }
