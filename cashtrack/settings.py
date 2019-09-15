@@ -37,6 +37,7 @@ REST_FRAMEWORK = {
 # Application definition
 
 INSTALLED_APPS = [
+    'cashtrack.records.apps.RecordsConfig',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
