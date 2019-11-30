@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class RecordsConfig(AppConfig):
-    name = 'cashtrack.records'
+    name = 'cashtrack.apps.records'
