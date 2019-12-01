@@ -1,20 +1,10 @@
 from django.contrib.auth.models import User, Group
-from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 
 from .models import Category, Subcategory, Record, RECORD_TYPES
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'groups']
 
-
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Group
-        fields = ['url', 'name']
-
-class RecordSerializer(serializers.ModelSerializer): 
+class RecordSerializer(ModelSerializer): 
     class Meta:
         model = Record
-        field = ['id', 'recordType', 'ammount', 'datetime', 'note', 'entity', 'category']
+        field = ['owner', 'id', 'recordType', 'ammount', 'datetime', 'note', 'entity', 'category']
