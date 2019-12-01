@@ -29,4 +29,6 @@ urlpatterns = [
     path('', include('cashtrack.apps.records.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
+    path('users/', UserList.as_view()),
+    path('users/<int:pk>/', UserDetail.as_view()),
 ]
