@@ -1,0 +1,16 @@
+[
+    {
+        "model": "cashtrack.apps.records.Category",
+        "pk": 1,
+        "fields": {
+            "name": "Food"
+        }
+    },
+    {
+        "model": "cashtrack.apps.records.Category",
+        "pk": 2,
+        "fields": {
+            "name": "Transportation"
+        }
+    }
+]

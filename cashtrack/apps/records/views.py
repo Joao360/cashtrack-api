@@ -9,6 +9,7 @@ from .permissions import IsOwner
 class RecordList(ListCreateAPIView):
     queryset = Record.objects.all()
     serializer_class = RecordSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

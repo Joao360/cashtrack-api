@@ -1,16 +1,10 @@
 from django.db import models
+from .category import Category
 
 RECORD_TYPES = (
     ('Income', 'Income'),
     ('Expense', 'Expense'),
 )
-
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-
-class Subcategory(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
 
 class Record(models.Model):
     owner = models.ForeignKey('auth.User', related_name='records', on_delete=models.CASCADE)
