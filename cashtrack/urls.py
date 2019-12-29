@@ -19,6 +19,7 @@ from rest_framework import routers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.authtoken.views import obtain_auth_token
 
 from cashtrack.apps.records.views import RecordList, RecordDetail, CategoryList, CategoryDetail
 
@@ -26,6 +27,7 @@ from cashtrack.apps.records.views import RecordList, RecordDetail, CategoryList,
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
+        'login': reverse('api_token_auth', request=request, format=format),
         'records': reverse('record-list', request=request, format=format),
         'categories': reverse('category-list', request=request, format=format)
     })
@@ -37,7 +39,7 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', api_root),
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
     path('admin/', admin.site.urls),
     path('users/records/', RecordList.as_view(), name='record-list'),
     path('users/records/<int:pk>/', RecordDetail.as_view(), name='record-detail'),
