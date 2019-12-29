@@ -28,7 +28,8 @@ from cashtrack.apps.records.views import RecordList, RecordDetail, CategoryList,
 def api_root(request, format=None):
     return Response({
         'users': reverse('user-list', request=request, format=format),
-        'records': reverse('record-list', request=request, format=format)
+        'records': reverse('record-list', request=request, format=format),
+        'categories': reverse('category-list', request=request, format=format)
     })
 
 router = routers.DefaultRouter()
