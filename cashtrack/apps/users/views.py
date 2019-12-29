@@ -1,11 +1,10 @@
-from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 
 from .serializers import UserSerializer
 
 
-class UserList(ListAPIView):
+class UserList(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
