@@ -7,9 +7,15 @@ from .permissions import IsOwner
 
 
 class RecordList(ListCreateAPIView):
-    queryset = Record.objects.all()
+    """
+    This view should return a list of all the records
+    for the currently authenticated user.
+    """
     serializer_class = RecordSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Record.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

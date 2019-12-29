@@ -20,14 +20,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-from cashtrack.apps.users.views import UserList, UserDetail
 from cashtrack.apps.records.views import RecordList, RecordDetail, CategoryList, CategoryDetail
 
 
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
-        'users': reverse('user-list', request=request, format=format),
         'records': reverse('record-list', request=request, format=format),
         'categories': reverse('category-list', request=request, format=format)
     })
@@ -41,10 +39,8 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
-    path('users/', UserList.as_view(), name='user-list'),
-    path('users/<int:pk>/', UserDetail.as_view(), name='user-detail'),
-    path('records/', RecordList.as_view(), name='record-list'),
-    path('records/<int:pk>/', RecordDetail.as_view(), name='record-detail'),
+    path('users/records/', RecordList.as_view(), name='record-list'),
+    path('users/records/<int:pk>/', RecordDetail.as_view(), name='record-detail'),
     path('categories/', CategoryList.as_view(), name='category-list'),
     path('categories/<int:pk>/', CategoryDetail.as_view(), name='category-detail'),
 ]
