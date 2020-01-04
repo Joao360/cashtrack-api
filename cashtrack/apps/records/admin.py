@@ -1,3 +1,13 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Record, Category
+
+
+class RecordAdmin(admin.ModelAdmin):
+    class Meta:
+        model = Record
+
+    list_display = ["created_at", "owner", "recordType", "category", "ammount", "datetime"]
+
+admin.site.register(Category)
+admin.site.register(Record, RecordAdmin)
