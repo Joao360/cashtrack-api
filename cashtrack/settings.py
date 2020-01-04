@@ -145,3 +145,5 @@ STATIC_URL = '/static/'
 FIXTURE_DIRS= [
     os.path.join(BASE_DIR, 'cashtrack.apps.fixtures')
 ]
+
+AUTH_USER_MODEL = 'users.User'
