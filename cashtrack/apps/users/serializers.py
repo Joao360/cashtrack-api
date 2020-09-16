@@ -1,11 +1,12 @@
-from django.contrib.auth.models import User
-from rest_framework.serializers import HyperlinkedModelSerializer, HyperlinkedRelatedField
+from rest_framework import serializers
 from cashtrack.apps.records.models import Record
+from .models import User
 
-class UserSerializer(HyperlinkedModelSerializer):
-    records = HyperlinkedRelatedField(many=True, view_name='record-detail', queryset=Record.objects.all())
-
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'id', 'username', 'records']
+        fields = ['id', 'username']
         
+class UserSigninSerializer(serializers.Serializer):
+    username = serializers.CharField(required = True)
+    password = serializers.CharField(required = True)
