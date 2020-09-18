@@ -1,19 +1,20 @@
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND,
     HTTP_200_OK,
 )
 from rest_framework.response import Response
+from rest_framework import generics, permissions
 
 from .serializers import UserSerializer, UserSigninSerializer
 from .authentication import token_expire_handler, expires_in
+from .models import User
 
 @api_view(["POST"])
-@permission_classes((AllowAny,))
+@permission_classes((permissions.AllowAny,))
 def signin(request):
     # Auth
     signin_serializer = UserSigninSerializer(data = request.data)
@@ -32,7 +33,7 @@ def signin(request):
     token, _ = Token.objects.get_or_create(user = user)
     
     is_expired, token = token_expire_handler(token)
-    user_serialized = UserSerializer(user)
+    user_serialized = UserSerializer(user, context={'request': request})
 
     #import pdb; pdb.set_trace()
 
@@ -41,3 +42,8 @@ def signin(request):
         'expires_in': expires_in(token),
         'token': token.key
     }, status=HTTP_200_OK)
+
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]

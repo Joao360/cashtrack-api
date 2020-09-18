@@ -22,7 +22,7 @@ from rest_framework.reverse import reverse
 from rest_framework.authtoken.views import obtain_auth_token
 
 from cashtrack.apps.records.views import RecordList, RecordDetail, CategoryList, CategoryDetail
-from cashtrack.apps.users.views import signin
+from cashtrack.apps.users.views import signin, UserDetail
 
 
 @api_view(['GET'])
@@ -42,6 +42,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('signin', signin),
     path('admin/', admin.site.urls),
+    path('users/<int:pk>/', UserDetail.as_view(), name='user-detail'),
     path('records/', RecordList.as_view(), name='record-list'),
     path('records/<int:pk>/', RecordDetail.as_view(), name='record-detail'),
     path('categories/', CategoryList.as_view(), name='category-list'),
