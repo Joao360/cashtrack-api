@@ -7,7 +7,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ['url', 'id', 'username', 'records']
+        fields = ['url', 'id', 'email', 'first_name', 'last_name', 'records']
         
 class UserSigninSerializer(serializers.Serializer):
     username = serializers.CharField(required = True)

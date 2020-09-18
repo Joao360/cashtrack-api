@@ -146,9 +146,9 @@ FIXTURE_DIRS= [
     os.path.join(BASE_DIR, 'cashtrack.apps.fixtures')
 ]
 
+# Custom user model
 AUTH_USER_MODEL = 'users.User'
 
 
 # Token
-
 TOKEN_EXPIRED_AFTER_HOURS = 72
