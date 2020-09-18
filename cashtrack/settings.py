@@ -149,6 +149,5 @@ FIXTURE_DIRS= [
 # Custom user model
 AUTH_USER_MODEL = 'users.User'
 
-
 # Token
 TOKEN_EXPIRED_AFTER_HOURS = 72

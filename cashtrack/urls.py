@@ -28,7 +28,8 @@ from cashtrack.apps.users.views import signin, UserDetail, CreateUserView
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
-        'login': reverse('api_token_auth', request=request, format=format),
+        'register': reverse('register', request=request, format=format),
+        'signin': reverse('sign-in', request=request, format=format),
         'records': reverse('record-list', request=request, format=format),
         'categories': reverse('category-list', request=request, format=format)
     })
@@ -40,8 +41,8 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', api_root),
     path('', include(router.urls)),
-    path('signin', signin),
     path('admin/', admin.site.urls),
+    path('signin/', signin, name='sign-in'),
     path('register/', CreateUserView.as_view(), name='register'),
     path('users/<int:pk>/', UserDetail.as_view(), name='user-detail'),
     path('records/', RecordList.as_view(), name='record-list'),
