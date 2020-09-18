@@ -43,6 +43,11 @@ def signin(request):
         'token': token.key
     }, status=HTTP_200_OK)
 
+class CreateUserView(generics.CreateAPIView):
+    model = User
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
+
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
