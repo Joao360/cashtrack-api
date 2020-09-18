@@ -30,6 +30,9 @@ ALLOWED_HOSTS = []
 
 # Pagination
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'cashtrack.apps.users.authentication.BearerAuthentication',
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
@@ -37,9 +40,15 @@ REST_FRAMEWORK = {
 # Application definition
 
 INSTALLED_APPS = [
+    #Local Apps
     'cashtrack.apps.users.apps.UsersConfig',
     'cashtrack.apps.records.apps.RecordsConfig',
+
+    #Third-Party Apps
+    'rest_framework.authtoken',
     'rest_framework',
+
+    #Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -136,3 +145,9 @@ STATIC_URL = '/static/'
 FIXTURE_DIRS= [
     os.path.join(BASE_DIR, 'cashtrack.apps.fixtures')
 ]
+
+# Custom user model
+AUTH_USER_MODEL = 'users.User'
+
+# Token
+TOKEN_EXPIRED_AFTER_HOURS = 72
