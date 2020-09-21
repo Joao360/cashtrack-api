@@ -1,9 +1,9 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
-from rest_framework import permissions
+from rest_framework import permissions, viewsets
 
-from .models import Record, Category
-from .serializers import RecordSerializer, CategorySerializer
-from .permissions import IsOwner
+from .models import Record, Category, MoneyDeposit
+from .serializers import RecordSerializer, CategorySerializer, MoneyDepositSerializer
+from .permissions import IsRecordOwner
 
 
 class RecordList(ListCreateAPIView):
@@ -23,7 +23,7 @@ class RecordList(ListCreateAPIView):
 class RecordDetail(RetrieveUpdateDestroyAPIView):
     queryset = Record.objects.all()
     serializer_class = RecordSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwner]
+    permission_classes = [permissions.IsAuthenticated, IsRecordOwner]
 
 class CategoryList(ListAPIView):
     queryset = Category.objects.all()
@@ -34,3 +34,10 @@ class CategoryDetail(RetrieveAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.AllowAny]
+
+class MoneyDepositViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing money deposit instances.
+    """
+    serializer_class = MoneyDepositSerializer
+    queryset = MoneyDeposit.objects.all()

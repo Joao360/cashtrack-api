@@ -4,8 +4,8 @@ from ..models import Record
 
 
 class RecordSerializer(HyperlinkedModelSerializer):
-    owner = ReadOnlyField(source='owner.username')
+    money_deposit = ReadOnlyField(source='money_deposit.name')
 
     class Meta:
         model = Record
-        fields = ['url', 'owner', 'id', 'recordType', 'ammount', 'datetime', 'note', 'entity', 'category']
+        fields = ['url', 'money_deposit', 'id', 'recordType', 'ammount', 'datetime', 'note', 'entity', 'category']

@@ -1,2 +1,3 @@
 from .record_serializer import RecordSerializer
 from .category_serializer import CategorySerializer
+from .money_deposit_serializer import MoneyDepositSerializer

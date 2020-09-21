@@ -21,7 +21,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.authtoken.views import obtain_auth_token
 
-from cashtrack.apps.records.views import RecordList, RecordDetail, CategoryList, CategoryDetail
+from cashtrack.apps.records.views import RecordList, RecordDetail, CategoryList, CategoryDetail, MoneyDepositViewSet
 from cashtrack.apps.users.views import signin, UserDetail, CreateUserView
 
 
@@ -35,6 +35,7 @@ def api_root(request, format=None):
     })
 
 router = routers.DefaultRouter()
+router.register(r'money_deposits', MoneyDepositViewSet, basename='money_deposit')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
