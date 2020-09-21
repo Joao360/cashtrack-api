@@ -47,5 +47,11 @@ migrate database
 
     python manage.py migrate
 
+### Populate database
+Before running the server, the database must have some values in it. To do so run the command 
+```
+python manage.py loaddata categories.json
+```
+
 ### Run the project
     python manage.py runserver
