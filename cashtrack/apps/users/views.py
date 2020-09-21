@@ -12,6 +12,7 @@ from rest_framework import generics, permissions
 from .serializers import UserSerializer, UserSigninSerializer
 from .authentication import token_expire_handler, expires_in
 from .models import User
+from .permissions import IsSelf
 
 @api_view(["POST"])
 @permission_classes((permissions.AllowAny,))
@@ -51,4 +52,4 @@ class CreateUserView(generics.CreateAPIView):
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsSelf]
