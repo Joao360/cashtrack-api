@@ -35,7 +35,7 @@ def api_root(request, format=None):
     })
 
 router = routers.DefaultRouter()
-router.register(r'money_deposits', MoneyDepositViewSet, basename='money_deposit')
+router.register(r'money_deposits', MoneyDepositViewSet, basename='moneydeposit')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

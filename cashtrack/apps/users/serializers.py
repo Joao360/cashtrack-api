@@ -1,9 +1,8 @@
 from rest_framework import serializers
-from cashtrack.apps.records.models import Record
 from .models import User
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    records = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='record-detail')
+    money_deposits = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='moneydeposit-detail')
     password = serializers.CharField(write_only=True)
 
     def create(self, validated_data):
@@ -20,7 +19,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ['url', 'id', 'email', 'password', 'first_name', 'last_name', 'records']
+        fields = ['url', 'id', 'email', 'password', 'first_name', 'last_name', 'money_deposits']
         
 class UserSigninSerializer(serializers.Serializer):
     username = serializers.CharField(required = True)

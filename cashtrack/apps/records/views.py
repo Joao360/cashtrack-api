@@ -15,10 +15,7 @@ class RecordList(ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Record.objects.filter(owner=self.request.user)
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        return Record.objects.filter(money_deposit__owner=self.request.user)
 
 class RecordDetail(RetrieveUpdateDestroyAPIView):
     queryset = Record.objects.all()
@@ -41,3 +38,10 @@ class MoneyDepositViewSet(viewsets.ModelViewSet):
     """
     serializer_class = MoneyDepositSerializer
     queryset = MoneyDeposit.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return MoneyDeposit.objects.filter(owner=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
