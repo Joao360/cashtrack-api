@@ -5,7 +5,6 @@ from .models import Record, Category, MoneyDeposit
 from .serializers import RecordSerializer, CategorySerializer, MoneyDepositSerializer
 from .permissions import IsRecordOwner
 
-
 class RecordList(ListCreateAPIView):
     """
     This view should return a list of all the records

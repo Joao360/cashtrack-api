@@ -8,4 +8,4 @@ class MoneyDepositSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = MoneyDeposit
-        fields = ['url', 'owner', 'name', 'ammount', 'records']
+        fields = ['url', 'owner', 'name', 'initial_amount', 'records']
