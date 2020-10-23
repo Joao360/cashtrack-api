@@ -14,40 +14,48 @@ from .authentication import token_expire_handler, expires_in
 from .models import User
 from .permissions import IsSelf
 
+
 @api_view(["POST"])
 @permission_classes((permissions.AllowAny,))
 def signin(request):
     # Auth
-    signin_serializer = UserSigninSerializer(data = request.data)
+    signin_serializer = UserSigninSerializer(data=request.data)
     if not signin_serializer.is_valid():
-        return Response(signin_serializer.errors, status = HTTP_400_BAD_REQUEST)
-
+        return Response(signin_serializer.errors, status=HTTP_400_BAD_REQUEST)
 
     user = authenticate(
-            username = signin_serializer.data['username'],
-            password = signin_serializer.data['password'] 
-        )
+        username=signin_serializer.data["username"],
+        password=signin_serializer.data["password"],
+    )
     if not user:
-        return Response({'detail': 'Invalid Credentials or activate account'}, status=HTTP_404_NOT_FOUND)
-        
+        return Response(
+            {"detail": "Invalid Credentials or activate account"},
+            status=HTTP_404_NOT_FOUND,
+        )
+
     # Token handling
-    token, _ = Token.objects.get_or_create(user = user)
-    
+    token, _ = Token.objects.get_or_create(user=user)
+
     is_expired, token = token_expire_handler(token)
-    user_serialized = UserSerializer(user, context={'request': request})
+    user_serialized = UserSerializer(user, context={"request": request})
 
-    #import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
 
-    return Response({
-        'user': user_serialized.data, 
-        'expires_in': expires_in(token),
-        'token': token.key
-    }, status=HTTP_200_OK)
+    return Response(
+        {
+            "user": user_serialized.data,
+            "expires_in": expires_in(token),
+            "token": token.key,
+        },
+        status=HTTP_200_OK,
+    )
+
 
 class CreateUserView(generics.CreateAPIView):
     model = User
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
+
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
