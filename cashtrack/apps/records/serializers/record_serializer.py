@@ -6,4 +6,14 @@ from ..models import Record
 class RecordSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Record
-        fields = ['url', 'money_deposit', 'id', 'recordType', 'amount', 'datetime', 'note', 'entity', 'category']
+        fields = [
+            "url",
+            "money_deposit",
+            "id",
+            "recordType",
+            "amount",
+            "datetime",
+            "note",
+            "entity",
+            "category",
+        ]
