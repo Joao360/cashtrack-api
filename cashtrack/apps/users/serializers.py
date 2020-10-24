@@ -1,5 +1,8 @@
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
+
 from .models import User
+from .authentication import token_expire_handler, expires_in
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -7,6 +10,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         many=True, read_only=True, view_name="moneydeposit-detail"
     )
     password = serializers.CharField(write_only=True)
+    token = serializers.SerializerMethodField()
+    token_expires_in = serializers.SerializerMethodField()
 
     def create(self, validated_data):
         user = super().create(validated_data)
@@ -20,6 +25,16 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         user.save()
         return user
 
+    def get_token(self, obj):
+        token, _ = Token.objects.get_or_create(user=obj)
+        is_expired, token = token_expire_handler(token)
+        return token.key
+
+    def get_token_expires_in(self, obj):
+        token, _ = Token.objects.get_or_create(user=obj)
+        is_expired, token = token_expire_handler(token)
+        return expires_in(token)
+
     class Meta:
         model = User
         fields = [
@@ -30,6 +45,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "first_name",
             "last_name",
             "money_deposits",
+            "token",
+            "token_expires_in",
         ]
 
 
