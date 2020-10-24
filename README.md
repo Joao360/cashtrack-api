@@ -55,3 +55,7 @@ python manage.py loaddata categories.json
 
 ### Run the project
     python manage.py runserver
+
+### Environment variables
+This project needs a **.env** file located in **cashstrack/apps/**
+You can look on **env.example** what variables you'll need to run the project
