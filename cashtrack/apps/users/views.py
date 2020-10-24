@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate
-from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -33,22 +32,9 @@ def signin(request):
             status=HTTP_404_NOT_FOUND,
         )
 
-    # Token handling
-    token, _ = Token.objects.get_or_create(user=user)
-
-    is_expired, token = token_expire_handler(token)
     user_serialized = UserSerializer(user, context={"request": request})
 
-    # import pdb; pdb.set_trace()
-
-    return Response(
-        {
-            "user": user_serialized.data,
-            "expires_in": expires_in(token),
-            "token": token.key,
-        },
-        status=HTTP_200_OK,
-    )
+    return Response({"user": user_serialized.data,}, status=HTTP_200_OK,)
 
 
 class CreateUserView(generics.CreateAPIView):
