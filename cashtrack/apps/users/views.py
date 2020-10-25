@@ -9,7 +9,6 @@ from rest_framework.response import Response
 from rest_framework import generics, permissions
 
 from .serializers import UserSerializer, UserSigninSerializer
-from .authentication import token_expire_handler, expires_in
 from .models import User
 from .permissions import IsSelf
 
