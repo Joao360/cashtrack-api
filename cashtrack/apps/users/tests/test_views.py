@@ -44,13 +44,17 @@ class UserTest(APITestCase):
         self.another_test.set_password("Test123!")
         self.another_test.save()
 
-    def test_get_own_details(self):
         self.client.force_authenticate(user=self.test)
-        request = factory.get(reverse("user-detail", kwargs={"pk": self.test.pk}))
-        force_authenticate(request, user=self.test)
 
-        response = self.client.get(reverse("user-detail", kwargs={"pk": self.test.pk}))
+        self.update_body = {
+            "email": "test@mail.com",
+            "password": "Test123!",
+            "first_name": "João",
+            "last_name": "Graça",
+        }
 
+    # It will retrieve the database object and prepare both objects to be compared by assertEqual
+    def prepare_data_for_comparison(self, response, request):
         test = User.objects.get(pk=self.test.pk)
         serializer = UserSerializer(test, context={"request": request})
         data = serializer.data
@@ -59,12 +63,50 @@ class UserTest(APITestCase):
         response.data.pop("token_expires_in")
         data.pop("token_expires_in")
 
+        return data
+
+    def test_get_own_details(self):
+        request = factory.get(reverse("user-detail", kwargs={"pk": self.test.pk}))
+        force_authenticate(request, user=self.test)
+
+        response = self.client.get(reverse("user-detail", kwargs={"pk": self.test.pk}))
+
+        data = self.prepare_data_for_comparison(response, request)
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, data)
 
     def test_get_other_details(self):
-        self.client.force_authenticate(user=self.another_test)
+        response = self.client.get(
+            reverse("user-detail", kwargs={"pk": self.another_test.pk})
+        )
 
-        response = self.client.get(reverse("user-detail", kwargs={"pk": self.test.pk}))
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_update_self(self):
+        request = factory.put(
+            reverse("user-detail", kwargs={"pk": self.test.pk}),
+            self.update_body,
+            format="json",
+        )
+        force_authenticate(request, user=self.test)
+
+        response = self.client.put(
+            reverse("user-detail", kwargs={"pk": self.test.pk}),
+            self.update_body,
+            format="json",
+        )
+
+        data = self.prepare_data_for_comparison(response, request)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_update_other(self):
+        response = self.client.put(
+            reverse("user-detail", kwargs={"pk": self.another_test.pk}),
+            self.update_body,
+            format="json",
+        )
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
