@@ -110,3 +110,19 @@ class UserTest(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_self(self):
+        response = self.client.delete(
+            reverse("user-detail", kwargs={"pk": self.test.pk})
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(User.objects.filter(pk=self.test.pk).exists(), False)
+
+    def test_delete_other(self):
+        response = self.client.delete(
+            reverse("user-detail", kwargs={"pk": self.another_test.pk})
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(User.objects.filter(pk=self.another_test.pk).exists(), True)
