@@ -1,7 +1,7 @@
 # CashTracker-API
 CashTracker's web API so you can track where your money is going
 
-__Python version:__ 3.7.4
+__Python version:__ 3.8.6
 
 ## Setting up
 
@@ -11,9 +11,9 @@ intall pyenv for managing multiple versions of python
 brew install pyenv
 ```
 
-install python 3.7.4
+install python 3.8.6
 ```
-pyenv install 3.7.4
+pyenv install 3.8.6
 ```
 
 python -m venv [dirname] --prompt [label]
