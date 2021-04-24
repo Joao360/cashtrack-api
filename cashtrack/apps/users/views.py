@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
-    HTTP_404_NOT_FOUND,
+    HTTP_401_UNAUTHORIZED,
     HTTP_200_OK,
 )
 from rest_framework.response import Response
@@ -28,7 +28,7 @@ def login(request):
     if not user:
         return Response(
             {"detail": "Invalid Credentials or activate account"},
-            status=HTTP_404_NOT_FOUND,
+            status=HTTP_401_UNAUTHORIZED,
         )
 
     user_serialized = UserSerializer(user, context={"request": request})
