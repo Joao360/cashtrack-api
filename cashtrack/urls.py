@@ -19,7 +19,6 @@ from rest_framework import routers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.authtoken.views import obtain_auth_token
 
 from cashtrack.apps.records.views import (
     RecordList,
@@ -28,7 +27,7 @@ from cashtrack.apps.records.views import (
     CategoryDetail,
     MoneyDepositViewSet,
 )
-from cashtrack.apps.users.views import signin, UserDetail, CreateUserView
+from cashtrack.apps.users.views import login, UserDetail, CreateUserView
 
 
 @api_view(["GET"])
@@ -52,8 +51,8 @@ urlpatterns = [
     path("", api_root),
     path("", include(router.urls)),
     path("admin/", admin.site.urls),
-    path("signin/", signin, name="sign-in"),
-    path("register/", CreateUserView.as_view(), name="register"),
+    path("auth/login/", login, name="sign-in"),
+    path("auth/register/", CreateUserView.as_view(), name="register"),
     path("users/<int:pk>/", UserDetail.as_view(), name="user-detail"),
     path("records/", RecordList.as_view(), name="record-list"),
     path("records/<int:pk>/", RecordDetail.as_view(), name="record-detail"),

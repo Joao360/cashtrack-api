@@ -15,7 +15,7 @@ from .permissions import IsSelf
 
 @api_view(["POST"])
 @permission_classes((permissions.AllowAny,))
-def signin(request):
+def login(request):
     # Auth
     signin_serializer = UserSigninSerializer(data=request.data)
     if not signin_serializer.is_valid():

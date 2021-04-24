@@ -1,7 +1,7 @@
+from datetime import timedelta
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 
-from datetime import timedelta
 from django.utils import timezone
 from django.conf import settings
 
