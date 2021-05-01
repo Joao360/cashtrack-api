@@ -4,6 +4,6 @@ pytz==2018.9
 #Postgresql
 psycopg2-binary==2.8.6
 #Django Rest Framework
-djangorestframework==3.10.3
+djangorestframework==3.11.2
 #Environment
 python-dotenv==0.14.0
