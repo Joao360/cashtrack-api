@@ -16,7 +16,17 @@ install python 3.8.6
 pyenv install 3.8.6
 ```
 
-python -m venv [dirname] --prompt [label]
+and append the following to your .zshrc/.bashrc
+```
+eval "$(pyenv init -)"
+```
+
+set the correct python version on the current shell
+```
+pyenv shell 3.8.6
+```
+
+create a virtual environment using python -m venv [dirname] --prompt [label]
 ```
 python -m venv venv --prompt cashtrack
 ```
@@ -26,9 +36,19 @@ activate virtual environment macOS
 source venv/bin/activate
 ```
 
-activate virtual environment Windows
+install postgresql
 ```
-venv\Scripts\activate
+brew install postgresql
+```
+
+and start its service with
+```
+brew services start postgresql
+```
+
+add the following to your .zshrc/.bashrc
+```
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
 ```
 
 install project dependencies
